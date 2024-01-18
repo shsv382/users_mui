@@ -1,23 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
+import UserCard from './components/UserCard';
 
 function App() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    setLoading(true);
+    setError('');
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .finally(() => setLoading(false))
+      .then(response => response.json())
+      .then(users => setUsers(users))
+      .catch(error => setError(error.toString()))
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        loading ? <CircularProgress /> :
+          error ? <p style={{ color: 'red' }}>Error: { error }</p> :
+          users.map(user => (
+          <UserCard user={user} />
+        ))
+      }
     </div>
   );
 }
