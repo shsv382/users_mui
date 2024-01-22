@@ -1,0 +1,10 @@
+.photos {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    background-color: rgb(216, 252, 231);
+    min-height: 100vh;
+}
